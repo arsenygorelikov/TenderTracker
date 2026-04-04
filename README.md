@@ -103,8 +103,25 @@ RESTful API с эндпоинтами:
 ### Требования
 - Docker 20+
 - Docker Compose 2+
+- **Опционально:** `make` (для удобных команд)
 
 ### Запуск
+
+#### Вариант 1: С помощью Make (рекомендуется)
+
+```bash
+# Клонировать репозиторий
+git clone <repo-url>
+cd tender-management
+
+# Запустить все сервисы
+make start
+
+# Просмотр доступных команд
+make help
+```
+
+#### Вариант 2: Через docker-compose
 
 ```bash
 # Клонировать репозиторий
@@ -120,10 +137,28 @@ docker-compose up --build
 # API Docs: http://localhost:8000/docs
 ```
 
+### Полезные команды
+
+| Команда | Описание |
+|---------|----------|
+| `make start` | Запуск всех сервисов (сборка + фон) |
+| `make stop` | Остановка всех сервисов |
+| `make logs` | Просмотр логов в реальном времени |
+| `make status` | Статус сервисов |
+| `make health` | Проверка здоровья сервисов |
+| `make clean` | Полная очистка (контейнеры, тома, образы) |
+| `make dev-db` | Подключение к БД через psql |
+| `make shell-backend` | Shell в контейнере backend |
+| `make shell-frontend` | Shell в контейнере frontend |
+
 ### Первый вход
 По умолчанию создаётся суперпользователь:
 - Email: `admin@example.com`
 - Пароль: `admin123`
+
+**Дополнительные тестовые пользователи:**
+- `manager@example.com` / `manager123` — TENDER_MANAGER
+- `viewer@example.com` / `viewer123` — VIEWER
 
 ## Что в MVP
 
