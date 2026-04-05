@@ -3,6 +3,7 @@ import { useAuth } from './hooks/useAuth';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import TenderListPage from './pages/TenderListPage';
+import TenderDetailPage from './pages/TenderDetailPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -59,6 +60,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <TenderListPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/tenders/:id" 
+        element={
+          <ProtectedRoute>
+            <TenderDetailPage />
           </ProtectedRoute>
         } 
       />

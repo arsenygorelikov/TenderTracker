@@ -32,6 +32,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str = Field(..., min_length=6)
+    organization_name: str = Field(..., min_length=1, max_length=255)
 
 
 class UserUpdate(BaseModel):
@@ -59,6 +60,15 @@ class Token(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
+
+
+class RegisterRequest(BaseModel):
+    """Schema for combined registration (user + organization)"""
+    email: EmailStr
+    password: str = Field(..., min_length=6)
+    full_name: Optional[str] = None
+    organization_name: str = Field(..., min_length=1, max_length=255)
+    organization_inn: Optional[str] = Field(None, min_length=10, max_length=12)
 
 
 # Tender schemas

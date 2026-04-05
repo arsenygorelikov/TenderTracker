@@ -73,10 +73,10 @@ export default function RegisterPage() {
         organization_name: formData.organizationName,
       });
 
-      // Автоматический вход после регистрации
+      // Автоматический вход после регистрации (используем ключи как в api.ts)
       const loginResponse = await api.login(formData.email, formData.password);
-      localStorage.setItem('token', loginResponse.access_token);
-      localStorage.setItem('refreshToken', loginResponse.refresh_token);
+      localStorage.setItem('access_token', loginResponse.access_token);
+      localStorage.setItem('refresh_token', loginResponse.refresh_token);
       
       navigate('/tenders');
     } catch (error: any) {
