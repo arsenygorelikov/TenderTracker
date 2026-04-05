@@ -2,13 +2,20 @@ import { AuthTokens, User } from '../types';
 
 const API_BASE = '/api';
 
+export interface RegisterData {
+  email: string;
+  password: string;
+  full_name: string;
+  organization_name: string;
+}
+
 class ApiClient {
   private accessToken: string | null = null;
-
+  
   setToken(token: string) {
     this.accessToken = token;
   }
-
+  
   getToken(): string | null {
     return this.accessToken || localStorage.getItem('access_token');
   }
@@ -21,9 +28,9 @@ class ApiClient {
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const token = this.getToken();
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...(options.headers as Record<string, string>),
     };
 
     if (token) {
@@ -53,6 +60,17 @@ class ApiClient {
     localStorage.setItem('refresh_token', data.refresh_token);
     this.setToken(data.access_token);
     return data;
+  }
+
+  async register(data: RegisterData): Promise<AuthTokens> {
+    const authData = await this.request<AuthTokens>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    localStorage.setItem('access_token', authData.access_token);
+    localStorage.setItem('refresh_token', authData.refresh_token);
+    this.setToken(authData.access_token);
+    return authData;
   }
 
   async getMe(): Promise<User> {
